@@ -1,2 +1,2 @@
-# PatientrxPortal
+# PatientRxPortal
 Patient Rx Portal
