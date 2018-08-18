@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PatientPortalModelStoreContainer" CdmEntityContainer="PatientPortalEntities">
+    <EntitySetMapping Name="TB_Patient">
+      <EntityTypeMapping TypeName="PatientPortalModel.TB_Patient">
+        <MappingFragment StoreEntitySet="TB_Patient">
+          <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />
+          <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+          <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TB_PatientRxData">
+      <EntityTypeMapping TypeName="PatientPortalModel.TB_PatientRxData">
+        <MappingFragment StoreEntitySet="TB_PatientRxData">
+          <ScalarProperty Name="PatientRxData_ID" ColumnName="PatientRxData_ID" />
+          <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />
+          <ScalarProperty Name="RxData_ID" ColumnName="RxData_ID" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TB_RxData">
+      <EntityTypeMapping TypeName="PatientPortalModel.TB_RxData">
+        <MappingFragment StoreEntitySet="TB_RxData">
+          <ScalarProperty Name="RxData_ID" ColumnName="RxData_ID" />
+          <ScalarProperty Name="RxDate" ColumnName="RxDate" />
+          <ScalarProperty Name="RxDoctor" ColumnName="RxDoctor" />
+          <ScalarProperty Name="Prescription1" ColumnName="Prescription1" />
+          <ScalarProperty Name="Prescription2" ColumnName="Prescription2" />
+          <ScalarProperty Name="Prescription3" ColumnName="Prescription3" />
+          <ScalarProperty Name="Prescription4" ColumnName="Prescription4" />
+          <ScalarProperty Name="Prescription5" ColumnName="Prescription5" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TB_PortalUser">
+      <EntityTypeMapping TypeName="PatientPortalModel.TB_PortalUser">
+        <MappingFragment StoreEntitySet="TB_PortalUser">
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="HashedPassword" ColumnName="HashedPassword" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="PortalUser_ID" ColumnName="PortalUser_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

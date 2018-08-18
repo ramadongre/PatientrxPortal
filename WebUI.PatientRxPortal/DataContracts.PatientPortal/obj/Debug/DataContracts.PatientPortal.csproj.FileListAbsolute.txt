@@ -1,0 +1,5 @@
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataContracts.PatientPortal\obj\Debug\DataContracts.PatientPortal.csproj.CoreCompileInputs.cache
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataContracts.PatientPortal\bin\Debug\DataContracts.PatientPortal.dll
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataContracts.PatientPortal\bin\Debug\DataContracts.PatientPortal.pdb
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataContracts.PatientPortal\obj\Debug\DataContracts.PatientPortal.dll
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataContracts.PatientPortal\obj\Debug\DataContracts.PatientPortal.pdb

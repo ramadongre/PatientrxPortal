@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PatientPortalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="TB_Patient">
+    <Key>
+      <PropertyRef Name="Patient_ID" />
+    </Key>
+    <Property Name="Patient_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="First_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Last_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TB_PatientRxData" Relationship="Self.FK_Patient_PatientRxData" FromRole="TB_Patient" ToRole="TB_PatientRxData" />
+  </EntityType>
+  <EntityType Name="TB_PatientRxData">
+    <Key>
+      <PropertyRef Name="PatientRxData_ID" />
+    </Key>
+    <Property Name="PatientRxData_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Patient_ID" Type="Int32" Nullable="false" />
+    <Property Name="RxData_ID" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TB_Patient" Relationship="Self.FK_Patient_PatientRxData" FromRole="TB_PatientRxData" ToRole="TB_Patient" />
+    <NavigationProperty Name="TB_RxData" Relationship="Self.FK_Patient_RxData" FromRole="TB_PatientRxData" ToRole="TB_RxData" />
+  </EntityType>
+  <EntityType Name="TB_RxData">
+    <Key>
+      <PropertyRef Name="RxData_ID" />
+    </Key>
+    <Property Name="RxData_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RxDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RxDoctor" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Prescription1" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Prescription2" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Prescription3" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Prescription4" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Prescription5" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TB_PatientRxData" Relationship="Self.FK_Patient_RxData" FromRole="TB_RxData" ToRole="TB_PatientRxData" />
+  </EntityType>
+  <Association Name="FK_Patient_PatientRxData">
+    <End Role="TB_Patient" Type="Self.TB_Patient" Multiplicity="1" />
+    <End Role="TB_PatientRxData" Type="Self.TB_PatientRxData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TB_Patient">
+        <PropertyRef Name="Patient_ID" />
+      </Principal>
+      <Dependent Role="TB_PatientRxData">
+        <PropertyRef Name="Patient_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Patient_RxData">
+    <End Role="TB_RxData" Type="Self.TB_RxData" Multiplicity="1" />
+    <End Role="TB_PatientRxData" Type="Self.TB_PatientRxData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TB_RxData">
+        <PropertyRef Name="RxData_ID" />
+      </Principal>
+      <Dependent Role="TB_PatientRxData">
+        <PropertyRef Name="RxData_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PatientPortalEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TB_Patient" EntityType="Self.TB_Patient" />
+    <EntitySet Name="TB_PatientRxData" EntityType="Self.TB_PatientRxData" />
+    <EntitySet Name="TB_RxData" EntityType="Self.TB_RxData" />
+    <AssociationSet Name="FK_Patient_PatientRxData" Association="Self.FK_Patient_PatientRxData">
+      <End Role="TB_Patient" EntitySet="TB_Patient" />
+      <End Role="TB_PatientRxData" EntitySet="TB_PatientRxData" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Patient_RxData" Association="Self.FK_Patient_RxData">
+      <End Role="TB_RxData" EntitySet="TB_RxData" />
+      <End Role="TB_PatientRxData" EntitySet="TB_PatientRxData" />
+    </AssociationSet>
+    <EntitySet Name="TB_PortalUser" EntityType="PatientPortalModel.TB_PortalUser" />
+  </EntityContainer>
+  <EntityType Name="TB_PortalUser">
+    <Key>
+      <PropertyRef Name="PortalUser_ID" />
+    </Key>
+    <Property Name="PortalUser_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="HashedPassword" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

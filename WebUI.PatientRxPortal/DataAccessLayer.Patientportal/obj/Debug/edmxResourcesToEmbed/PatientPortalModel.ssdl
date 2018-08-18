@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PatientPortalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TB_Patient">
+    <Key>
+      <PropertyRef Name="Patient_ID" />
+    </Key>
+    <Property Name="Patient_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="First_Name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Last_Name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="DateOfBirth" Type="datetime" Nullable="false" />
+    <Property Name="PhoneNumber" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="TB_PatientRxData">
+    <Key>
+      <PropertyRef Name="PatientRxData_ID" />
+    </Key>
+    <Property Name="PatientRxData_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Patient_ID" Type="int" Nullable="false" />
+    <Property Name="RxData_ID" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="TB_PortalUser">
+    <Key>
+      <PropertyRef Name="PortalUser_ID" />
+    </Key>
+    <Property Name="PortalUser_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="DisplayName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="HashedPassword" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="TB_RxData">
+    <Key>
+      <PropertyRef Name="RxData_ID" />
+    </Key>
+    <Property Name="RxData_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RxDate" Type="datetime" Nullable="false" />
+    <Property Name="RxDoctor" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Prescription1" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="Prescription2" Type="varchar" MaxLength="1000" />
+    <Property Name="Prescription3" Type="varchar" MaxLength="1000" />
+    <Property Name="Prescription4" Type="varchar" MaxLength="1000" />
+    <Property Name="Prescription5" Type="varchar" MaxLength="1000" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <Association Name="FK_Patient_PatientRxData">
+    <End Role="TB_Patient" Type="Self.TB_Patient" Multiplicity="1" />
+    <End Role="TB_PatientRxData" Type="Self.TB_PatientRxData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TB_Patient">
+        <PropertyRef Name="Patient_ID" />
+      </Principal>
+      <Dependent Role="TB_PatientRxData">
+        <PropertyRef Name="Patient_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Patient_RxData">
+    <End Role="TB_RxData" Type="Self.TB_RxData" Multiplicity="1" />
+    <End Role="TB_PatientRxData" Type="Self.TB_PatientRxData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TB_RxData">
+        <PropertyRef Name="RxData_ID" />
+      </Principal>
+      <Dependent Role="TB_PatientRxData">
+        <PropertyRef Name="RxData_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PatientPortalModelStoreContainer">
+    <EntitySet Name="TB_Patient" EntityType="Self.TB_Patient" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TB_PatientRxData" EntityType="Self.TB_PatientRxData" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TB_PortalUser" EntityType="Self.TB_PortalUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TB_RxData" EntityType="Self.TB_RxData" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Patient_PatientRxData" Association="Self.FK_Patient_PatientRxData">
+      <End Role="TB_Patient" EntitySet="TB_Patient" />
+      <End Role="TB_PatientRxData" EntitySet="TB_PatientRxData" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Patient_RxData" Association="Self.FK_Patient_RxData">
+      <End Role="TB_RxData" EntitySet="TB_RxData" />
+      <End Role="TB_PatientRxData" EntitySet="TB_PatientRxData" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
