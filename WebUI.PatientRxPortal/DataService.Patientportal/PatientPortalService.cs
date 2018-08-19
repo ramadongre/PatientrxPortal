@@ -92,5 +92,67 @@ namespace DataService.Patientportal
 
             return cs;
         }
+
+        public CommonStatus GetAllPatientRxs(int patientID, int LoggedInuserID)
+        {
+            ProcessData p = new ProcessData();
+            CommonStatus cs = new CommonStatus(false);
+
+            try
+            {
+                cs = p.GetAllPatientRxs(patientID, LoggedInuserID);
+            }
+            catch (Exception ex)
+            {
+                cs.Set(false, ex.Message, null);
+            }
+            finally
+            {
+                p = null;
+            }
+
+            return cs;
+        }
+
+        public CommonStatus GetPatient(int PatientID, int LoggedInuserID)
+        {
+            ProcessData p = new ProcessData();
+            CommonStatus cs = new CommonStatus(false);
+
+            try
+            {
+                cs = p.GetPatient(PatientID, LoggedInuserID);
+            }
+            catch (Exception ex)
+            {
+                cs.Set(false, ex.Message, null);
+            }
+            finally
+            {
+                p = null;
+            }
+
+            return cs;
+        }
+        public CommonStatus GetRxData(int RxDataID, int LoggedInuserID)
+        {
+            ProcessData p = new ProcessData();
+            CommonStatus cs = new CommonStatus(false);
+
+            try
+            {
+                cs = p.GetRxData(RxDataID, LoggedInuserID);
+            }
+            catch (Exception ex)
+            {
+                cs.Set(false, ex.Message, null);
+            }
+            finally
+            {
+                p = null;
+            }
+
+            return cs;
+        }
     }
 }

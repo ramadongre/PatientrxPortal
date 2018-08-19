@@ -35,7 +35,6 @@ namespace DataAccessLayer.Patientportal
 
             try
             {
-
                 using (PatientPortalEntities ent = new PatientPortalEntities())
                 {
                     List<Patient> patients = new List<Patient>();
@@ -102,6 +101,53 @@ namespace DataAccessLayer.Patientportal
             return cs;
 
         }
+
+        public CommonStatus GetAllPatientRxs(int patientID, int LoggedInuserID)
+        {
+            CommonStatus cs = new CommonStatus(false);
+
+            try
+            {
+                using (PatientPortalEntities ent = new PatientPortalEntities())
+                {
+                    List<RxData> allPatientRxs = new List<RxData>();
+
+                    var rxs = from prd in ent.TB_PatientRxData
+                              join rd in ent.TB_RxData on prd.RxData_ID equals rd.RxData_ID
+                              where (prd.Patient_ID == patientID)
+                              select rd;
+
+                    if (rxs != null && rxs.FirstOrDefault() != null)
+                    {
+                        foreach (TB_RxData r in rxs)
+                        {
+                            RxData d = new RxData();
+                            d.RxData_ID = r.RxData_ID;
+                            d.RxDate = r.RxDate;
+                            d.RxDoctor = r.RxDoctor;
+                            d.Prescription1 = r.Prescription1;
+                            d.Prescription2 = r.Prescription2;
+                            d.Prescription3 = r.Prescription3;
+                            d.Prescription4 = r.Prescription4;
+                            d.Prescription5 = r.Prescription5;
+                            d.CreateDate = r.CreateDate;
+                            d.UpdatedOn = r.UpdateDate;
+
+                            allPatientRxs.Add(d);
+                        }
+
+                        cs.Set(true, "", allPatientRxs);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                cs.Set(false, ex.Message, null);
+            }
+
+            return cs;
+        }
         public CommonStatus AddUpdatePatient(Patient patient, int LoggedInuserID)
         {
             CommonStatus cs = new CommonStatus(false);
@@ -110,21 +156,36 @@ namespace DataAccessLayer.Patientportal
             {
                 using (PatientPortalEntities ent = new PatientPortalEntities())
                 {
-                    var username = (from u in ent.TB_PortalUser where u.PortalUser_ID == LoggedInuserID select u.UserName).ToString();
+
+                    //check for duplicate user;
+                    //var dup = (from u in ent.TB_Patient where u.First_Name == patient.First_Name && u.Last_Name == patient.Last_Name && u.DateOfBirth.Date == patient.DateOfBirth.Date select u).FirstOrDefault();
+
+                    var username = (from u in ent.TB_PortalUser where u.PortalUser_ID == LoggedInuserID select u.UserName).FirstOrDefault();
 
                     if (patient.Patient_ID == 0)
                     {
-                        TB_Patient tp = new TB_Patient();
-                        tp.First_Name = patient.First_Name;
-                        tp.Last_Name = patient.Last_Name;
-                        tp.DateOfBirth = patient.DateOfBirth;
-                        tp.PhoneNumber = patient.PhoneNumber;
-                        tp.IsActive = true;
-                        tp.CreateDate = DateTime.Now;
-                        tp.CreatedBy = username;
+                        var dup = ent.TB_Patient.Where(u => u.First_Name == patient.First_Name && u.Last_Name == patient.Last_Name && u.DateOfBirth == patient.DateOfBirth).FirstOrDefault();
+                        if (dup == null)
+                        {
 
-                        ent.TB_Patient.Add(tp);
-                        ent.SaveChanges();
+                            TB_Patient tp = new TB_Patient();
+                            tp.First_Name = patient.First_Name;
+                            tp.Last_Name = patient.Last_Name;
+                            tp.DateOfBirth = patient.DateOfBirth;
+                            tp.PhoneNumber = patient.PhoneNumber;
+                            tp.IsActive = true;
+                            tp.CreateDate = DateTime.Now;
+                            tp.CreatedBy = username;
+
+                            ent.TB_Patient.Add(tp);
+                            ent.SaveChanges();
+
+                            cs.Set(true, "", null);
+                        }
+                        else
+                        {
+                            cs.Set(false, "Patient with same first name, last name and dateof birth found.", null);
+                        }
                     }
                     else
                     {
@@ -140,11 +201,10 @@ namespace DataAccessLayer.Patientportal
                             pt.UpdatedBy = username;
 
                             ent.SaveChanges();
+
+                            cs.Set(true, "", null);
                         }
                     }
-
-                    cs.Set(true, "", null);
-
                 }
             }
             catch (Exception ex)
@@ -162,7 +222,7 @@ namespace DataAccessLayer.Patientportal
             {
                 using (PatientPortalEntities ent = new PatientPortalEntities())
                 {
-                    var username = (from u in ent.TB_PortalUser where u.PortalUser_ID == LoggedInuserID select u.UserName).ToString();
+                    var username = (from u in ent.TB_PortalUser where u.PortalUser_ID == LoggedInuserID select u.UserName).FirstOrDefault();
 
                     if (rxData.RxData_ID == 0)
                     {
@@ -179,6 +239,15 @@ namespace DataAccessLayer.Patientportal
 
                         ent.TB_RxData.Add(r);
                         ent.SaveChanges();
+
+                        TB_PatientRxData pr = new TB_PatientRxData();
+                        pr.Patient_ID = patientID;
+                        pr.RxData_ID = r.RxData_ID;
+                        pr.CreateDate = DateTime.Now;
+                        pr.CreatedBy = username;
+                        ent.TB_PatientRxData.Add(pr);
+                        ent.SaveChanges();
+
                     }
                     else
                     {
@@ -238,6 +307,79 @@ namespace DataAccessLayer.Patientportal
 
                     cs.Set(true, "", user);
 
+                }
+            }
+            catch (Exception ex)
+            {
+                cs.Set(false, ex.Message, null);
+            }
+
+            return cs;
+        }
+
+        public CommonStatus GetPatient(int PatientID, int LoggedInuserID)
+        {
+            CommonStatus cs = new CommonStatus(false);
+
+            try
+            {
+                using (PatientPortalEntities ent = new PatientPortalEntities())
+                {
+
+                    var pts = (from p in ent.TB_Patient where p.Patient_ID == PatientID select p).FirstOrDefault();
+                    if (pts != null)
+                    {
+                        Patient p = new Patient();
+                        p.Patient_ID = pts.Patient_ID;
+                        p.First_Name = pts.First_Name;
+                        p.Last_Name = pts.Last_Name;
+                        p.DateOfBirth = pts.DateOfBirth;
+                        p.PhoneNumber = pts.PhoneNumber;
+                        p.UpdatedOn = pts.UpdateDate;
+                        p.CreateDate = pts.CreateDate;
+
+                        cs.Set(true, "", p);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                cs.Set(false, ex.Message, null);
+            }
+
+            return cs;
+        }
+        public CommonStatus GetRxData(int RxDataID, int LoggedInuserID)
+        {
+            CommonStatus cs = new CommonStatus(false);
+
+            try
+            {
+                using (PatientPortalEntities ent = new PatientPortalEntities())
+                {
+
+
+                    var r = (from rd in ent.TB_RxData
+                             where rd.RxData_ID == RxDataID
+                             select rd).FirstOrDefault();
+
+                    if (r != null)
+                    {
+                        RxData d = new RxData();
+                        d.RxData_ID = r.RxData_ID;
+                        d.RxDate = r.RxDate;
+                        d.RxDoctor = r.RxDoctor;
+                        d.Prescription1 = r.Prescription1;
+                        d.Prescription2 = r.Prescription2;
+                        d.Prescription3 = r.Prescription3;
+                        d.Prescription4 = r.Prescription4;
+                        d.Prescription5 = r.Prescription5;
+                        d.CreateDate = r.CreateDate;
+                        d.UpdatedOn = r.UpdateDate;
+
+                        cs.Set(true, "", r);
+                    }
                 }
             }
             catch (Exception ex)

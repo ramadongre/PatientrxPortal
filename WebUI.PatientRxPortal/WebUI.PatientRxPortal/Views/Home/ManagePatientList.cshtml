@@ -32,11 +32,11 @@
             <th>Phone</th>
             <th>Last Update Date</th>
             <th>Rx Data ID</th>
-            <th>Rx Date</th>
+            <th>Recent Rx Date</th>
             <th>Rx Doctor</th>
             <th>Prescriptions</th>
             <th></th>
-            <th></th>
+            <th></th>			
         </tr>
     </thead>
     <tbody>
@@ -54,8 +54,7 @@
                 <td>@Html.DisplayFor(modelItem => item.LastestRxData.RxDoctor)</td>
                 <td style="white-space: pre-line">@Html.DisplayFor(modelItem => item.LastestRxData.GetAllPrescriptions)</td>
                 <td><a href="#" target="_self" onclick="return EditPatient(@Html.DisplayFor(modelItem => item.Patient_ID));">Edit Patient</a></td>
-                <td><a href="#" target="_self" onclick="return AddRx(@Html.DisplayFor(modelItem => item.Patient_ID), @Html.DisplayFor(modelItem => item.LastestRxData.RxData_ID));">Add Rx</a></td>
-                <td><a href="#" target="_self" onclick="return EditRx(@Html.DisplayFor(modelItem => item.Patient_ID), @Html.DisplayFor(modelItem => item.LastestRxData.RxData_ID));">Edit Rx</a></td>
+                <td><a href="#" target="_self" onclick="return ManageRx(@Html.DisplayFor(modelItem => item.Patient_ID),'@Html.DisplayFor(modelItem => item.First_Name)','@Html.DisplayFor(modelItem => item.Last_Name)');">Manage Rx</a></td>                
             </tr>
         }
     </tbody>

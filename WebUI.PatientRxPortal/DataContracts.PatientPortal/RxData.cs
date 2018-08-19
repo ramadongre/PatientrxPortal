@@ -17,9 +17,18 @@ namespace DataContracts.PatientPortal
         public string Prescription4;
         public string Prescription5;
 
+        public DateTime DisplayDate
+        {
+            get
+            {
+                return (UpdatedOn != null && UpdatedOn > CreateDate ? Convert.ToDateTime(UpdatedOn) : CreateDate);
+            }
+        }
+
         public string GetAllPrescriptions
         {
-            get {
+            get
+            {
 
                 StringBuilder sb = new StringBuilder();
 
@@ -28,7 +37,7 @@ namespace DataContracts.PatientPortal
 
                 if (!string.IsNullOrEmpty(Prescription2))
                 {
-                    if(sb.ToString().Length>0)
+                    if (sb.ToString().Length > 0)
                         sb.Append(Environment.NewLine);
                     sb.Append(Prescription2);
                 }

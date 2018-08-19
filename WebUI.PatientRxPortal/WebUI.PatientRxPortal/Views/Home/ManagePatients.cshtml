@@ -37,15 +37,17 @@
 <script type="text/javascript">
 
     var currentUserID = 0;
+    var currentUserFirstName = '';
+    var currentUserLastName = '';
 
 
     function AddNewPatient() {
-
+        
         $("#dvMainArea").slideUp("slow", function () {
             // Animation complete.
             ShowAjaxLoadingContent('dvActionArea');
             $('#dvActionArea').slideDown("slow", function () {
-                $('#dvActionArea').load('~/Home/AddNewPatient');
+                $('#dvActionArea').load(getMyAbsoluteUrl('~/Home/AddNewPatient'));
 
             });
         });
@@ -53,13 +55,58 @@
         return false;
     }
 
-    function AddRx(patientid, rxdataid) {
+    function AddNewPatientCancel() {
+        $("#dvActionArea").slideUp("slow", function () {
+            // Animation complete.
+            ShowAjaxLoadingContent('dvgridArea');
+            $('#dvMainArea').slideDown("slow");
+            $('#dvActionArea').html('');
+            $('#dvgridArea').load(getMyAbsoluteUrl('~/Home/ManagePatientList'));
+        });
+
+        //return false;
+    }
+
+    function ToManagePatients() {
+        $("#dvActionArea").slideUp("slow", function () {
+            // Animation complete.
+            ShowAjaxLoadingContent('dvgridArea');
+            $('#dvMainArea').slideDown("slow");
+            $('#dvActionArea').html('');
+            $('#dvgridArea').load(getMyAbsoluteUrl('~/Home/ManagePatientList'));
+        });
+    }
+
+    function EditPatientCancel() {
+        $("#dvActionArea").slideUp("slow", function () {
+            // Animation complete.
+            ShowAjaxLoadingContent('dvgridArea');
+            $('#dvMainArea').slideDown("slow");
+            $('#dvActionArea').html('');
+            $('#dvgridArea').load(getMyAbsoluteUrl('~/Home/ManagePatientList'));
+        });
+
+        //return false;
+    }
+
+    function ManageRx(patientid, firstname, lastname) {
+
+        currentUserID = patientid;
+        currentUserFirstName = firstname;
+        currentUserLastName = lastname;
+
+        $("#dvMainArea").slideUp("slow", function () {
+            // Animation complete.
+            ShowAjaxLoadingContent('dvActionArea');
+            $('#dvActionArea').slideDown("slow", function () {
+                $('#dvActionArea').load(getMyAbsoluteUrl('~/Home/ManageRx?patientID=' + patientid + '&firstname=' + firstname + "&lastname=" + lastname));
+
+            });
+        });
+
         return false;
     }
 
-    function EditRx(patientid, rxdataid) {
-        return false;
-    }
 
     function EditPatient(userid) {
         if (userid != null) {
@@ -70,7 +117,7 @@
                 // Animation complete.
                 ShowAjaxLoadingContent('dvActionArea');
                 $('#dvActionArea').slideDown("slow", function () {
-                    $('#dvActionArea').load('~/Home/EditPatient?PatientID=' + userid);
+                    $('#dvActionArea').load(getMyAbsoluteUrl('~/Home/EditPatient?PatientID=' + userid));
                 });
             });
         }
@@ -79,6 +126,7 @@
     $(document).ready(function () {
         ShowAjaxLoadingContent('dvgridArea');
         $('#dvgridArea').load(getMyAbsoluteUrl('~/Home/ManagePatientList'));
+
     });
 </script>
 

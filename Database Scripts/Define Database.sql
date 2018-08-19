@@ -115,4 +115,4 @@ GO
 --select CONVERT(VARCHAR(32), HashBytes('MD5', 'email@dot.com'), 2)
 ----drop table [TB_PatientRx]
 --select len('F53BD08920E5D25809DF2563EF9C52B6');
-drop table tb_user;
+Select * from TB_PortalUser;

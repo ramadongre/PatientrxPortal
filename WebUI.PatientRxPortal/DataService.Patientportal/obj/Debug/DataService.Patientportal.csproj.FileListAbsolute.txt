@@ -12,8 +12,8 @@ C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataServi
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\bin\Debug\ServiceContracts.PatientPortal.pdb
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\bin\Debug\EntityFramework.xml
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\obj\Debug\DataService.Patientportal.csprojAssemblyReference.cache
-C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\obj\Debug\DataService.Patientportal.csproj.CoreCompileInputs.cache
-C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\obj\Debug\DataService.Patientportal.csproj.CopyComplete
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\obj\Debug\DataService.PatientPortal.csprojAssemblyReference.cache
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\obj\Debug\DataService.PatientPortal.csproj.CoreCompileInputs.cache
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\obj\Debug\DataService.PatientPortal.csproj.CopyComplete
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\obj\Debug\DataService.Patientportal.dll
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataService.Patientportal\obj\Debug\DataService.Patientportal.pdb
