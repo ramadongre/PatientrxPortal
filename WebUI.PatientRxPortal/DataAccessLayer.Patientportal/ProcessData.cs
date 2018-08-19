@@ -10,11 +10,22 @@ namespace DataAccessLayer.Patientportal
 {
     public class ProcessData
     {
-        public ProcessData()
+        //static bool isMapperInitialized = false;
+
+        static ProcessData()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<TB_Patient, Patient>());
-            Mapper.Initialize(cfg => cfg.CreateMap<TB_RxData, RxData>());
-            Mapper.Initialize(cfg => cfg.CreateMap<TB_PortalUser, PortalUser>());
+            //if (!isMapperInitialized)
+            //{
+            //    Mapper.Initialize(cfg => cfg.CreateMap<TB_Patient, Patient>());
+            //    Mapper.Initialize(cfg => cfg.CreateMap<TB_RxData, RxData>());
+            //    Mapper.Initialize(cfg => cfg.CreateMap<TB_PortalUser, PortalUser>());
+            //    isMapperInitialized = true;
+            //}
+        }
+
+        private DateTime GetMaxof(DateTime? upDate, DateTime cDate)
+        {
+            return (upDate != null && Convert.ToDateTime(upDate) > cDate ? Convert.ToDateTime(upDate) : cDate);
         }
 
         public CommonStatus GetPatients(string FirstName, string LastName, int LoggedInuserID)
@@ -30,19 +41,52 @@ namespace DataAccessLayer.Patientportal
                     List<Patient> patients = new List<Patient>();
                     RxData rdata = new RxData();
 
-                    var pts = from p in ent.TB_Patient where (p.First_Name.Contains(FirstName) || p.Last_Name.Contains(LastName)) select p;
+                    var pts = from p in ent.TB_Patient /*where (p.First_Name.Contains(FirstName) || p.Last_Name.Contains(LastName))*/ select p;
                     foreach (TB_Patient dbp in pts)
                     {
-                        Patient p = Mapper.Map<Patient>(dbp);
+                        //Patient p = Mapper.Map<Patient>(dbp);
+                        Patient p = new Patient();
+                        p.Patient_ID = dbp.Patient_ID;
+                        p.First_Name = dbp.First_Name;
+                        p.Last_Name = dbp.Last_Name;
+                        p.DateOfBirth = dbp.DateOfBirth;
+                        p.PhoneNumber = dbp.PhoneNumber;
+                        p.DisplayDate = (dbp.UpdateDate != null && dbp.UpdateDate > dbp.CreateDate ? dbp.UpdateDate : dbp.CreateDate);
+
+                        p.LastestRxData = new RxData();
+
+                        //select all Rxs for patient
                         var rx = from prd in ent.TB_PatientRxData
                                  join rd in ent.TB_RxData on prd.RxData_ID equals rd.RxData_ID
-                                 where (prd.Patient_ID == p.Patient_ID) 
-                                 orderby rd.CreateDate descending, rd.UpdateDate descending
-                                 select rd;
+                                 join pt in ent.TB_Patient on prd.Patient_ID equals pt.Patient_ID
+                                 where (prd.Patient_ID == p.Patient_ID)
+                                 //orderby rd.CreateDate descending, rd.UpdateDate descending
+                                 select new
+                                 {
+                                     rxid = rd.RxData_ID,
+                                     uddate = (rd.UpdateDate != null && rd.UpdateDate > rd.CreateDate ? rd.UpdateDate : rd.CreateDate)
+                                 };
 
-                        if (rx.FirstOrDefault() != null)
-                            p.LastestRxData = Mapper.Map<RxData>(rx.FirstOrDefault());
+                        if (rx != null && rx.FirstOrDefault() != null)
+                        {
+                            var latestRxId = (from lrid in rx orderby lrid.uddate descending select lrid.rxid).FirstOrDefault();
 
+                            var latestRX = (from s in ent.TB_RxData where s.RxData_ID == latestRxId select s).FirstOrDefault();
+
+                            RxData d = new RxData();
+                            d.RxData_ID = latestRxId;
+                            d.RxDate = latestRX.RxDate;
+                            d.RxDoctor = latestRX.RxDoctor;
+                            d.Prescription1 = latestRX.Prescription1;
+                            d.Prescription2 = latestRX.Prescription2;
+                            d.Prescription3 = latestRX.Prescription3;
+                            d.Prescription4 = latestRX.Prescription4;
+                            d.Prescription5 = latestRX.Prescription5;
+
+                            p.LastestRxData = d;
+
+                            //p.LastestRxData = Mapper.Map<RxData>(rx.FirstOrDefault());
+                        }
                         patients.Add(p);
                     }
 
@@ -96,7 +140,7 @@ namespace DataAccessLayer.Patientportal
                             pt.UpdatedBy = username;
 
                             ent.SaveChanges();
-                        }    
+                        }
                     }
 
                     cs.Set(true, "", null);
@@ -124,7 +168,7 @@ namespace DataAccessLayer.Patientportal
                     {
                         TB_RxData r = new TB_RxData();
                         r.RxDate = rxData.RxDate;
-                        r.RxDoctor= rxData.RxDoctor;
+                        r.RxDoctor = rxData.RxDoctor;
                         r.Prescription1 = rxData.Prescription1;
                         r.Prescription2 = rxData.Prescription2;
                         r.Prescription3 = rxData.Prescription3;
@@ -157,6 +201,42 @@ namespace DataAccessLayer.Patientportal
                     }
 
                     cs.Set(true, "", null);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                cs.Set(false, ex.Message, null);
+            }
+
+            return cs;
+        }
+
+        public CommonStatus VerifyLoginUser(string UserName, string Password)
+        {
+            //password has been already hashed using MD5 in upper layers.
+
+            CommonStatus cs = new CommonStatus(false);
+            PortalUser user = null;
+
+            try
+            {
+
+                using (PatientPortalEntities ent = new PatientPortalEntities())
+                {
+                    var u = (from p in ent.TB_PortalUser where p.UserName == UserName && p.HashedPassword == Password && p.IsActive == true select p).FirstOrDefault();
+
+                    if (u != null)
+                    {
+                        user = new PortalUser();
+
+                        user.PortalUser_ID = u.PortalUser_ID;
+                        user.UserName = u.UserName;
+                        user.DisplayName = u.DisplayName;
+                        user.HashedPassword = u.HashedPassword;
+                    }
+
+                    cs.Set(true, "", user);
 
                 }
             }

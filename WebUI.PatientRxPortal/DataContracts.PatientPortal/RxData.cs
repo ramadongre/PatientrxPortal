@@ -15,6 +15,47 @@ namespace DataContracts.PatientPortal
         public string Prescription2;
         public string Prescription3;
         public string Prescription4;
-        public string Prescription5;        
+        public string Prescription5;
+
+        public string GetAllPrescriptions
+        {
+            get {
+
+                StringBuilder sb = new StringBuilder();
+
+                if (!string.IsNullOrEmpty(Prescription1))
+                    sb.Append(Prescription1);
+
+                if (!string.IsNullOrEmpty(Prescription2))
+                {
+                    if(sb.ToString().Length>0)
+                        sb.Append(Environment.NewLine);
+                    sb.Append(Prescription2);
+                }
+
+                if (!string.IsNullOrEmpty(Prescription3))
+                {
+                    if (sb.ToString().Length > 0)
+                        sb.Append(Environment.NewLine);
+                    sb.Append(Prescription3);
+                }
+
+                if (!string.IsNullOrEmpty(Prescription4))
+                {
+                    if (sb.ToString().Length > 0)
+                        sb.Append(Environment.NewLine);
+                    sb.Append(Prescription4);
+                }
+
+                if (!string.IsNullOrEmpty(Prescription5))
+                {
+                    if (sb.ToString().Length > 0)
+                        sb.Append(Environment.NewLine);
+                    sb.Append(Prescription5);
+                }
+
+                return sb.ToString();
+            }
+        }
     }
 }

@@ -1,4 +1,3 @@
-C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\obj\Debug\DataAccessLayer.Patientportal.csproj.CoreCompileInputs.cache
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\DataAccessLayer.Patientportal.dll.config
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\DataAccessLayer.Patientportal.dll
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\DataAccessLayer.Patientportal.pdb
@@ -6,6 +5,7 @@ C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAcces
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\DataContracts.PatientPortal.dll
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\EntityFramework.dll
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\System.Data.SqlClient.dll
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\System.ValueTuple.dll
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\DataContracts.PatientPortal.pdb
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\AutoMapper.pdb
@@ -14,6 +14,7 @@ C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAcces
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\bin\Debug\System.ValueTuple.xml
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\obj\Debug\DataAccessLayer.Patientportal.csprojAssemblyReference.cache
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\obj\Debug\DataAccessLayer.Patientportal.csproj.CoreCompileInputs.cache
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\obj\Debug\DataAccessLayer.Patientportal.csproj.CopyComplete
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\obj\Debug\DataAccessLayer.Patientportal.dll
 C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\DataAccessLayer.Patientportal\obj\Debug\DataAccessLayer.Patientportal.pdb

@@ -1,0 +1,375 @@
+﻿@{
+    ViewBag.Title = "Edit Fennec User";
+}
+
+
+@using System.Web.Optimization;
+@model WF.FENNEC.WebUI.Models.FennecUserModel
+
+@using (Html.BeginForm("EditUser", "Administration", FormMethod.Post, new { @class = "form-horizontal", role = "form", @ID = "frmEditFennecUser", autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-lg-offset-0 col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-user-plus">&nbsp;</i>Edit user</h3>
+            </div>
+            <div class="panel-body">
+                <div id="dvEditErrorHolder"></div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.HiddenFor(input => input.OriginalUserName)
+                        @Html.HiddenFor(input => input.UserID, new { @class = "form-control input-sm", id = "txtUserid", maxlength = "10" })
+                        @Html.Label("User Type", "User Type", new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.DropDownListFor(input => input.UserTypeID, new SelectList(Model.UserTypes, "Value", "Text"), new { @class = "form-control input-sm", id = "ddlUserTypeID", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(input => input.UserName, new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.TextBoxFor(input => input.UserName, new { @class = "form-control input-sm", id = "txtUserName", maxlength = "200" })
+                    </div>
+                </div>
+                <div class="form-group" id="dvPasswordGroup">
+                    <div class="col-xs-4">
+                        <input type="checkbox" id="chkChangePassword" name="chkChangePassword" />&nbsp;@Html.Label("ChangePassword", "Enable Password Change", new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="form-group" id="dvCurrentPassword">
+                    <div class="col-xs-4">
+                        @Html.HiddenFor(input => input.UserPassword, new { @class = "form-control input-sm", id = "UserPassword", maxlength = "1000" })
+                        @Html.Label("Current Password", "Current Password", new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.Password("CurrentPassword", "", new { @class = "form-control input-sm", id = "CurrentPassword", maxlength = "100", minlength = "8" })
+                    </div>
+                </div>
+                <div id="dvNewPassword">
+                    <div class="form-group">
+                        <div class="col-xs-4">
+                            @Html.Label("New Password", "New Password", new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                            @Html.PasswordFor(input => input.NewUserPassword, new { @class = "form-control input-sm", id = "NewUserPassword", maxlength = "100", minlength = "8" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-4">
+                            @Html.Label("Confirm New Password", "Confirm New Password", new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                            @Html.Password("ConfirmNewUserPassword", "", new { @class = "form-control input-sm", id = "ConfirmNewUserPassword", maxlength = "100", minlength = "8" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(input => input.DisplayName, new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.TextBoxFor(input => input.DisplayName, new { @class = "form-control input-sm", id = "txtDisplayName", maxlength = "250" })
+                    </div>
+                </div>
+                <div class="form-group" id="dvUserDomain">
+                    <div class="col-xs-4">
+                        @Html.Label("Domain Name", "Domain Name", new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.TextBoxFor(input => input.DomainName, new { @class = "form-control input-sm", id = "DomainName", maxlength = "100" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-3">
+                        @Html.Label("Role(s)", "Role Associations", new { @class = "control-label" })
+                        @for (int idx = 0; idx < Model.UserRoles.Count; idx++)
+                        {
+                            <div style="">
+                                @Html.HiddenFor(x => Model.UserRoles[idx].ID)
+                                @Html.CheckBoxFor(x => Model.UserRoles[idx].IsSelected)
+                                @Html.DisplayFor(x => Model.UserRoles[idx].Text)
+                            </div>
+                        }
+                    </div>
+                    <div class="col-xs-3">
+                        @Html.Label("System(s)", "System Associations", new { @class = "control-label" })
+                        @for (int idx = 0; idx < Model.UserSystems.Count; idx++)
+                        {
+                            <div style="">
+                                @Html.HiddenFor(x => Model.UserSystems[idx].ID)
+                                @Html.CheckBoxFor(x => Model.UserSystems[idx].IsSelected)
+                                @Html.DisplayFor(x => Model.UserSystems[idx].Text)
+
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group" id="dvStatus">
+                    <div class="col-xs-4">
+                        @Html.CheckBoxFor(m => m.IsActive, new { id = "chkIsUserActive" })
+                        @*<input type="checkbox" checked="@Model.IsActive" id="chkIsUserActive" name="chkIsUserActive" />&nbsp;@Html.Label("lblIsUserActive", "Is User Active?", new { @class = "control-label" })*@
+                        &nbsp;@Html.Label("chkIsUserActive", "Is User Active?", new { @class = "control-label" })
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group" style="margin-top:20px;">
+                    <div class="col-xs-4">
+                        <button type="button" onclick="return EditUser();" class="btn btn-primary btn-sm" id="btnEditUser">Update User</button>&nbsp;
+                        <button type="button" onclick="return EditUserReset();" class="btn btn-primary btn-sm" id="btnEditUserReset">Reset</button>&nbsp;
+                        <button type="button" onclick="return EditUserCancel();" class="btn btn-primary btn-sm" id="btnEditUserCancel" style="float:none">Back</button>&nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    var frmValidator = $("#frmEditFennecUser").validate({
+        errorElement: 'span',
+        ignore: ".ignore",
+        rules: {
+            UserName: {
+                required: true,
+            },
+            CurrentPassword: {
+                required: true,
+            },
+            NewUserPassword: {
+                required: true,
+            },
+            ConfirmNewUserPassword: {
+                required: true,
+                equalTo: '#NewUserPassword',
+            },
+            DomainName: {
+                required: true,
+            },
+            DisplayName: {
+                required: true,
+            },
+        },
+
+        // Messages for form validation
+        messages: {
+            UserName: {
+                required: 'Please enter user name',
+            },
+            CurrentPassword: {
+                required: 'Please enter current password',
+            },
+            NewUserPassword: {
+                required: 'Please enter new password',
+            },
+            ConfirmNewUserPassword: {
+                required: 'Please re-enter new password',
+                equalTo: 'Both new passwords must match'
+            },
+            DomainName: {
+                required: 'Please enter domain name',
+            },
+            DisplayName: {
+                required: 'Please enter display name',
+            },
+        },
+        errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        }
+
+    });
+
+    function CheckIfCurrentPassworIsRight() {
+        var IsCurrentPasswordRight = false;
+
+        if ($('#ddlUserTypeID').val() == "2" && $('#chkChangePassword').prop('checked')) {
+
+            try {
+                var response = postUrlJsonSync(getFennecAbsoluteUrl('~/Administration/CheckIfCurrentPasswordIsRight?password=' + $('#CurrentPassword').val() + '&currenthash=' +
+                    $('#UserPassword').val()));
+                //alert(response.data);
+                if (response.valid == 'OK') {
+                    if (response.data == 'True') {
+                        IsCurrentPasswordRight = true;
+                    }
+                }
+            }
+            catch (e)
+            { }
+
+            if (!IsCurrentPasswordRight) {
+                setFormStatusMessage('frmEditFennecUser', 'dvEditErrorHolder', false, 'Current password is invalid', 4);
+            }
+        }
+
+        else
+            IsCurrentPasswordRight = true;
+
+        return IsCurrentPasswordRight;
+    }
+
+    function CheckIfUserNameIsNotDuplicate() {
+        var isUserNameValid = false;
+        
+            if ($.trim($('#OriginalUserName').val().toLowerCase()) != $.trim($('#txtUserName').val().toLowerCase())) {
+
+            try {
+                var response = getUrlJsonSync(getFennecAbsoluteUrl('~/Administration/CheckIfUserNameExists?userName=' + $('#txtUserName').val() + '&userTypeID=' +
+                    $('#ddlUserTypeID').val()));
+
+                if (response.valid == 'OK') {
+                    if (response.data == 'False') {
+                        isUserNameValid = true;
+                    }
+                }
+            }
+            catch (e)
+            { }
+
+            if (!isUserNameValid) {
+                setFormStatusMessage('frmEditFennecUser', 'dvEditErrorHolder', false, 'User name already registered', 4);
+            }
+        }
+        else
+            isUserNameValid = true;
+
+        return isUserNameValid;
+    }
+
+    function CheckIfADUserNameIsValid() {
+        var isUserNameValid = false;
+
+        //validate AD
+        if ($('#ddlUserTypeID').val() == "1") {
+
+            try {
+                var response = getUrlJsonSync(getFennecAbsoluteUrl('~/Administration/CheckIfUserNameIsValidADAccount?userName=' + $('#txtUserName').val() + '&domainname=' +
+                    $('#DomainName').val()));
+
+                if (response.valid == 'OK') {
+                    if (response.data == 'True') {
+                        isUserNameValid = true;
+                    }
+                }
+            }
+            catch (e)
+            { }
+
+            if (!isUserNameValid) {
+                setFormStatusMessage('frmEditFennecUser', 'dvEditErrorHolder', false, 'Not a valid active directory user', 4);
+            }
+        }
+        else
+            isUserNameValid = true;
+
+        return isUserNameValid;
+    }
+
+    function EditUser() {
+
+        HideFormStatusMessage('frmEditFennecUser', 'dvEditErrorHolder');
+
+        var isSuccess = false;
+        if (!ajaxValidateEditUser()) {
+            //alert('err');
+            return false;
+        }
+        else {
+
+            //check if user-name was altered and if it is unique
+            if (CheckIfCurrentPassworIsRight()) {
+                if (CheckIfUserNameIsNotDuplicate()) {
+                    if (CheckIfADUserNameIsValid()) {
+
+                        $.ajax({
+                            url: getFennecAbsoluteUrl('~/Administration/EditUser'),
+                            type: 'POST',
+                            datatype: "html",
+                            cache: false,
+                            data: $("#frmEditFennecUser").serialize(),
+                            success: function (data) {
+
+                                if (data != null) {
+
+                                    var status = data.status;
+                                    var message = data.message;
+
+                                    wasItAAsuccess = (status == "OK");
+
+                                    if (wasItAAsuccess) {
+
+                                        setFormStatusMessage('frmEditFennecUser', 'dvEditErrorHolder', true, 'User successfully updated', 4);
+                                    }
+                                    else {
+                                        setFormStatusMessage('frmAddOrganization', 'dvEditErrorHolder', false, message);
+                                    }
+                                }
+                            },
+                            error: function () {
+                                setFormStatusMessage('frmEditFennecUser', 'dvEditErrorHolder', false, 'An error occured');
+
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // Edit user validation rules
+    function ajaxValidateEditUser() {
+        return frmValidator.form();
+    }
+
+    function EditUserReset() {
+
+        FennecShowAjaxLoadingContent('dvActionArea');
+
+        $('#dvActionArea').load(getFennecAbsoluteUrl('~/Administration/EditUser?userid=' + currentUserID));
+
+        return false;
+    }
+
+    function EditUserCancel() {
+        $("#dvActionArea").slideUp("slow", function () {
+            // Animation complete.
+            FennecShowAjaxLoadingContent('dvgridArea');
+            $('#dvMainArea').slideDown("slow");
+            $('#dvActionArea').html('');
+            $('#dvgridArea').load(getFennecAbsoluteUrl('~/Administration/ManageUsersList'));
+        });
+
+        return false;
+    }
+
+    $(document).ready(function () {
+
+        $('#chkChangePassword').change(function () {
+            if ($('#chkChangePassword').prop('checked')) {
+                $('#dvCurrentPassword').show();
+                $('#dvNewPassword').show();
+                $('#CurrentPassword').removeClass('ignore');
+                $('#NewUserPassword').removeClass('ignore');
+                $('#ConfirmNewUserPassword').removeClass('ignore');
+            }
+            else {
+                $('#dvCurrentPassword').hide();
+                $('#dvNewPassword').hide();
+                $('#CurrentPassword').addClass('ignore');
+                $('#NewUserPassword').addClass('ignore');
+                $('#ConfirmNewUserPassword').addClass('ignore');
+            }
+        });
+
+        $('#chkChangePassword').change();
+
+        $('#ddlUserTypeID').change(function () {
+            if ($(this).val() == "1") {
+                $('#dvPasswordGroup').hide();
+                $('#dvUserDomain').show();
+                $('#DomainName').removeClass('ignore');
+            }
+            else if ($(this).val() == "2") {
+                $('dvPasswordGroup').show();
+                $('#dvUserDomain').hide();
+                $('#DomainName').addClass('ignore');
+            }
+        });
+
+        $('#ddlUserTypeID').change();
+
+    });
+
+</script>

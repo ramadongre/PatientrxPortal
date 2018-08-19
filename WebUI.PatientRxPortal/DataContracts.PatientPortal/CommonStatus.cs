@@ -12,6 +12,29 @@ namespace DataContracts.PatientPortal
         private string Message;
         private object Payload;
 
+        public bool OpStatus
+        {
+            get {
+                return Status;
+            }
+        }
+
+        public string OpMessage
+        {
+            get
+            {
+                return Message;
+            }
+        }
+
+        public object OpPayload
+        {
+            get
+            {
+                return Payload;
+            }
+        }
+
         public CommonStatus(bool _Status)
         {
             Status = _Status;

@@ -15,5 +15,6 @@ namespace DataContracts.PatientPortal
         public string PhoneNumber;
         public bool IsActive;
         public RxData LastestRxData;
+        public DateTime? DisplayDate; 
     }
 }

@@ -71,5 +71,26 @@ namespace DataService.Patientportal
 
             return cs;
         }
+
+        public CommonStatus VerifyLoginUser(string UserName, string Password)
+        {
+            ProcessData p = new ProcessData();
+            CommonStatus cs = new CommonStatus(false);
+
+            try
+            {
+                cs = p.VerifyLoginUser(UserName, Password);
+            }
+            catch (Exception ex)
+            {
+                cs.Set(false, ex.Message, null);
+            }
+            finally
+            {
+                p = null;
+            }
+
+            return cs;
+        }
     }
 }

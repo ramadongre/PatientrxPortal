@@ -13,6 +13,6 @@ namespace ServiceContracts.PatientPortal
         CommonStatus GetPatients(string FirstName, string LastName, int LoggedInuserID);
         CommonStatus AddUpdatePatient(Patient patient, int LoggedInuserID);
         CommonStatus AddUpdatePatientRxData(int patientID, RxData rxData, int LoggedInuserID);
-
+        CommonStatus VerifyLoginUser(string UserName, string Password);
     }
 }

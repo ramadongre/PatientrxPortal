@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Manage Patients";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("ManagePatients", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", @ID = "frmManagePatients", autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-lg-offset-0 col-lg-12" id="dvMainArea">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-users">&nbsp;</i>Manage Patients</h3>
+            </div>
+            <div class="panel-body">
+                <div id="dvErrorHolder"></div>
+                <div style="clear:both"></div>
+                <div class="row" style="margin-bottom:20px;margin-top:20px;">
+                    <div class="col-xs-12">
+                        <button type="button" onclick="javascript: return AddNewPatient();" class="btn btn-primary btn-md" id="btnAddNewUser" style="float:right;margin-right:10px;">Add New Patient</button>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <hr />
+                <div id="dvgridArea">
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+<div id="dvActionArea">
+</div>
+
+<script type="text/javascript">
+
+    var currentUserID = 0;
+
+
+    function AddNewPatient() {
+
+        $("#dvMainArea").slideUp("slow", function () {
+            // Animation complete.
+            ShowAjaxLoadingContent('dvActionArea');
+            $('#dvActionArea').slideDown("slow", function () {
+                $('#dvActionArea').load('~/Home/AddNewPatient');
+
+            });
+        });
+
+        return false;
+    }
+
+    function AddRx(patientid, rxdataid) {
+        return false;
+    }
+
+    function EditRx(patientid, rxdataid) {
+        return false;
+    }
+
+    function EditPatient(userid) {
+        if (userid != null) {
+
+            currentUserID = userid;
+
+            $("#dvMainArea").slideUp("slow", function () {
+                // Animation complete.
+                ShowAjaxLoadingContent('dvActionArea');
+                $('#dvActionArea').slideDown("slow", function () {
+                    $('#dvActionArea').load('~/Home/EditPatient?PatientID=' + userid);
+                });
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        ShowAjaxLoadingContent('dvgridArea');
+        $('#dvgridArea').load(getMyAbsoluteUrl('~/Home/ManagePatientList'));
+    });
+</script>
+
