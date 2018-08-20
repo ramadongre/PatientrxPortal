@@ -23,6 +23,7 @@ Authentication,
 Responsive,
 N Tier Architecture,
 Single page design
+One way hashed  passwords.
 
 Known issues
 ------------------
