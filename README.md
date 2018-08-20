@@ -34,9 +34,13 @@ Possible improvement
 Better testing.
 Replace class library with web-api or WCF for tier communications.  
 
+Database scripts
+--------
+Found in "Database Scripts" folder of this location. This script creates database and provides a login user.
+
 Demo
 -----------
-The application has been hosted on Azure:
+The application has been hosted on Azure VM & SQL:
 
 http://52.170.151.71/PatientRxPortal/
 
