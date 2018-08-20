@@ -1,0 +1,6 @@
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\Utilities.PatientRxPortal\bin\Release\Utilities.PatientRxPortal.dll
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\Utilities.PatientRxPortal\bin\Release\Utilities.PatientRxPortal.pdb
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\Utilities.PatientRxPortal\obj\Release\Utilities.PatientRxPortal.csprojAssemblyReference.cache
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\Utilities.PatientRxPortal\obj\Release\Utilities.PatientRxPortal.csproj.CoreCompileInputs.cache
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\Utilities.PatientRxPortal\obj\Release\Utilities.PatientRxPortal.dll
+C:\Users\ramadongre\Source\Repos\PatientrxPortal\WebUI.PatientRxPortal\Utilities.PatientRxPortal\obj\Release\Utilities.PatientRxPortal.pdb

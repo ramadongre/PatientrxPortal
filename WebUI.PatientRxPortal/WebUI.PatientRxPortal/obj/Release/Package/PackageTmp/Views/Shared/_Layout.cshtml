@@ -1,0 +1,63 @@
+﻿@using System.Web.Optimization;
+@using System.Collections.Generic;
+@using System.Runtime.InteropServices;
+@using System.Security.Claims;
+@using System.Security.Principal;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Patient Rx Portal" />
+    <meta name="author" content="Ram Dongre" />
+    <title>Patient Rx Portal</title>
+
+    @Styles.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css", true))
+    @Styles.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/FontAwesome", true))
+
+    @Scripts.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/jquery", true))
+    @Scripts.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/jqueryval", true))
+    @*@Scripts.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/modernizr", true))*@
+    @Scripts.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/bootstrap", true))
+    @Scripts.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/custom", true))
+
+    <script src="~/Scripts/jquery.mask.js"></script>
+
+    <script type="text/javascript">
+        var settings = {
+            baseUrl: '@Url.Content("~")'
+        };
+    </script>
+
+</head>
+<body>
+    @{
+        var DisplayName = "";
+        var Username = "";
+
+        if (HttpContext.Current.User.Identity.IsAuthenticated)
+        {
+            var uid = (ClaimsIdentity)HttpContext.Current.User.Identity;
+
+            DisplayName = uid.FindFirst(ClaimTypes.Name).Value;
+            Username = uid.FindFirst(ClaimTypes.NameIdentifier).Value;
+        }
+    }
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="">
+            <div class="navbar-header" style="width:100%;">
+                <span class="navbar-brand" style="width:25%;"><b>Patient Rx Portal</b></span>
+                <span style="text-align:right;width:75%;" class="navbar-brand">Welcome: @DisplayName (@Username)&nbsp;<a class="bg-hover-color" href="~/Account/Logout" id="MenuColor">Log Out</a></span>
+            </div>
+        </div>
+    </div>
+    <div class="body-content" style="margin-top:25px;">
+        @RenderBody()
+        <hr />
+
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

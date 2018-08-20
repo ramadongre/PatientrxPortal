@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Patient Rx Portal" />
+    <meta name="author" content="Ram Dongre" />
+    <title>Patient Rx Portal</title>
+
+    @Styles.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css", true))
+    @Styles.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/FontAwesome", true))
+
+    @Scripts.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/jquery", true))
+    @Scripts.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/jqueryval", true))
+    @Scripts.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/modernizr", true))
+    @Scripts.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/bootstrap", true))
+    @Scripts.Render(System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/custom", true))
+
+    <script type="text/javascript">
+        var settings = {
+            baseUrl: '@Url.Content("~")'
+        };
+    </script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="">
+            <div class="navbar-header">
+                <span class="navbar-brand"><b>Patient Rx Portal</b></span>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content" style="margin-top:25px;">
+        @RenderBody()
+        <hr />
+
+    </div> 
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

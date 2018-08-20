@@ -1,0 +1,170 @@
+﻿
+
+@{
+    ViewBag.Title = "Add New Patient";
+}
+
+@using System.Web.Optimization;
+@model WebUI.PatientRxPortal.Models.PatientViewModel
+
+@using (Html.BeginForm("AddNewPatient", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", @ID = "frmAddNewPatient", autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-lg-offset-0 col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-user-plus">&nbsp;</i>Add New Patient</h3>
+            </div>
+            <div class="panel-body">
+                <div id="dvAddErrorHolder" style="padding-left:15px;padding-right:20px;"></div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(input => input.First_Name, new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.TextBoxFor(input => input.First_Name, new { @class = "form-control input-sm", id = "txtFirstName", maxlength = "100" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(input => input.Last_Name, new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.TextBoxFor(input => input.Last_Name, new { @class = "form-control input-sm", id = "txtLastName", maxlength = "100" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(input => input.DateOfBirth, new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.TextBoxFor(input => input.DateOfBirth, "{0:d}", new { @class = "form-control input-sm", id = "txtDOB", maxlength = "25" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(input => input.PhoneNumber, new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.TextBoxFor(input => input.PhoneNumber, new { @class = "form-control input-sm", id = "txtPhone", maxlength = "25" })
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group" style="margin-top:20px;">
+                    <div class="col-xs-4">
+                        <button type="button" onclick="return AddNewPatient();" class="btn btn-primary btn-sm" id="btnAddNewPatient">Add New User</button>&nbsp;
+                        <button type="button" onclick="return AddNewPatientReset();" class="btn btn-primary btn-sm" id="btnAddNewPatientReset">Reset</button>&nbsp;
+                        <button type="button" onclick="return AddNewPatientCancel();" class="btn btn-primary btn-sm" id="btnAddNewPatientCancel" style="float:none">Back</button>&nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    var frmAddValidator = $("#frmAddNewPatient").validate({
+        errorElement: 'span',
+        ignore: ".ignore",
+        rules: {
+            First_Name: {
+                required: true,
+            },
+            Last_Name: {
+                required: true,
+            },
+            DateOfBirth: {
+                required: true,
+            },
+            PhoneNumber: {
+                required: true,
+            },
+        },
+
+        // Messages for form validation
+        messages: {
+            First_Name: {
+                required: 'Please enter first name',
+            },
+            Last_Name: {
+                required: 'Please enter last name',
+            },
+            DateOfBirth: {
+                required: 'Please enter date of birth',
+            },
+            PhoneNumber: {
+                required: 'Please enter phone number',
+            },
+        },
+        errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        }
+
+    });
+
+    // Edit user validation rules
+    function ajaxValidateAddNewPatient() {
+        return frmAddValidator.form();
+    }
+
+    function AddNewPatient() {
+
+        HideFormStatusMessage('frmAddNewPatient', 'dvAddErrorHolder');
+
+        var isSuccess = false;
+        if (!ajaxValidateAddNewPatient()) {
+
+            return false;
+        }
+        else {
+
+            $.ajax({
+                url: getMyAbsoluteUrl('~/home/AddNewPatient'),
+                type: 'POST',
+                datatype: "html",
+                cache: false,
+                data: $("#frmAddNewPatient").serialize(),
+                success: function (data) {
+
+                    if (data != null) {
+
+                        var status = data.status;
+                        var message = data.message;
+
+                        wasItAAsuccess = (status == "OK");
+
+                        if (wasItAAsuccess) {
+
+                            setFormStatusMessage('frmAddNewPatient', 'dvAddErrorHolder', true, 'New user successfully created');
+                        }
+                        else {
+                            setFormStatusMessage('frmAddNewPatient', 'dvAddErrorHolder', false, message);
+                        }
+                    }
+                },
+                error: function () {
+                    setFormStatusMessage('frmAddNewPatient', 'dvAddErrorHolder', false, 'An error occured');
+
+                }
+            });
+
+        }
+
+        return false;
+    }
+
+    function AddNewPatientReset() {
+
+        Clear_Form('frmAddNewPatient');
+        frmAddValidator.resetForm();
+
+        HideFormStatusMessage('frmAddNewPatient', 'dvAddErrorHolder');
+
+        return false;
+    }
+
+    $(document).ready(function () {
+
+        $("#txtPhone").mask("(999) 999-9999? x99999");
+        //$("#txtDOB").mask("99/99/9999", { placeholder: 'dd/mm/yyyy' });
+        $("#txtDOB").datepicker({
+            maxDate: new Date, minDate: new Date(1950, 1, 1)
+        });
+    });
+
+</script>
