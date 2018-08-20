@@ -28,15 +28,24 @@ Known issues
 ------------------
 1)In landing page, if you go from edit-patient and then back to add-patient twice, the add-patient button becomes un-responsive and same can be seen in manage-Rx screen. To overcome the issue, please refresh the parent page once.
 2)Jquery Mask and date-picker do not relaibly bind to controls.
+3)Date validations.
 
 Possible improvement
 --------------
 1)Better testing.
 2)Replace class library with web-api or WCF for tier communications.  
+3)True server side pagination for patient and rx records.
 
 Database scripts
 --------
 Found in "Database Scripts" folder of this location. This script creates database and provides a login user.
+
+How recreate this example
+-------------
+1)Download the entire source code and run the webui project on local IIS or IIS express.
+2)Use database scripts to create the database and login user.
+3)In Web.config for WebUI project, update the database credentials for Entity framework.
+4)Run the app. 
 
 Demo
 -----------
