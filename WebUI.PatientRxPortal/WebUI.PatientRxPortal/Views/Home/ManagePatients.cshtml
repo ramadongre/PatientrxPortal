@@ -19,7 +19,8 @@
                 <div style="clear:both"></div>
                 <div class="row" style="margin-bottom:20px;margin-top:20px;">
                     <div class="col-xs-12">
-                        <button type="button" onclick="javascript: return AddNewPatient();" class="btn btn-primary btn-md" id="btnAddNewUser" style="float:right;margin-right:10px;">Add New Patient</button>
+                        @*<button type="button" onclick="javascript: return AddNewPatient();" class="btn btn-primary btn-md" id="btnAddNewPatientMaster" style="float:right;margin-right:10px;">Add New Patient</button>*@
+                        <a href="#" class="btn btn-primary btn-md" role="button" onclick="javascript: return AddNewPatient();">Add New Patient</a>
                     </div>
                 </div>
                 <div style="clear:both"></div>
@@ -37,18 +38,18 @@
 <script type="text/javascript">
 
     var currentUserID = 0;
+    var currentRxID = 0;
     var currentUserFirstName = '';
     var currentUserLastName = '';
 
 
     function AddNewPatient() {
-        
+
         $("#dvMainArea").slideUp("slow", function () {
             // Animation complete.
             ShowAjaxLoadingContent('dvActionArea');
             $('#dvActionArea').slideDown("slow", function () {
                 $('#dvActionArea').load(getMyAbsoluteUrl('~/Home/AddNewPatient'));
-
             });
         });
 
@@ -60,11 +61,11 @@
             // Animation complete.
             ShowAjaxLoadingContent('dvgridArea');
             $('#dvMainArea').slideDown("slow");
-            $('#dvActionArea').html('');
+            //$('#dvActionArea').html('');
             $('#dvgridArea').load(getMyAbsoluteUrl('~/Home/ManagePatientList'));
         });
 
-        //return false;
+        return false;
     }
 
     function ToManagePatients() {
@@ -82,11 +83,11 @@
             // Animation complete.
             ShowAjaxLoadingContent('dvgridArea');
             $('#dvMainArea').slideDown("slow");
-            $('#dvActionArea').html('');
+            //$('#dvActionArea').html('');
             $('#dvgridArea').load(getMyAbsoluteUrl('~/Home/ManagePatientList'));
         });
 
-        //return false;
+        return false;
     }
 
     function ManageRx(patientid, firstname, lastname) {

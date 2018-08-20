@@ -1,0 +1,185 @@
+﻿
+
+@{
+    ViewBag.Title = "Add New Rx";
+}
+
+
+@using System.Web.Optimization;
+@model WebUI.PatientRxPortal.Models.RxViewModel
+
+@using (Html.BeginForm("AddNewRx", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", @ID = "frmAddNewRx", autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-lg-offset-0 col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-user-plus">&nbsp;</i><span id="spnAddNewRx"></span></h3>
+            </div>
+            <div class="panel-body">
+                <div id="dvAddRxErrorHolder" style="padding-left:15px;padding-right:20px;"></div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(input => input.rxDate, new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.TextBoxFor(input => input.rxDate, "{0:d}", new { @class = "form-control input-sm", id = "txtRxDate", maxlength = "25" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(input => input.rxDoctor, new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.TextBoxFor(input => input.rxDoctor, new { @class = "form-control input-sm", id = "rxDoctor", maxlength = "100" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(input => input.Prescription1, new { @class = "control-label" })<span style="color:red;font-weight:bold">&nbsp;*</span>
+                        @Html.TextBoxFor(input => input.Prescription1, new { @class = "form-control input-sm", id = "Prescription1", maxlength = "750" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(input => input.Prescription2, new { @class = "control-label" })
+                        @Html.TextBoxFor(input => input.Prescription2, new { @class = "form-control input-sm", id = "Prescription2", maxlength = "750" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(input => input.Prescription3, new { @class = "control-label" })
+                        @Html.TextBoxFor(input => input.Prescription3, new { @class = "form-control input-sm", id = "Prescription3", maxlength = "750" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(input => input.Prescription4, new { @class = "control-label" })
+                        @Html.TextBoxFor(input => input.Prescription4, new { @class = "form-control input-sm", id = "Prescription4", maxlength = "750" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(input => input.Prescription5, new { @class = "control-label" })
+                        @Html.TextBoxFor(input => input.Prescription5, new { @class = "form-control input-sm", id = "Prescription5", maxlength = "750" })
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group" style="margin-top:20px;">
+                    <div class="col-xs-4">
+                        <button type="button" onclick="return AddNewRx();" class="btn btn-primary btn-sm" id="btnAddNewRx">Add New Rx</button>&nbsp;
+                        <button type="button" onclick="return AddNewRxReset();" class="btn btn-primary btn-sm" id="btnAddNewRxReset">Reset</button>&nbsp;
+                        <button type="button" onclick="return AddNewRxCancel();" class="btn btn-primary btn-sm" id="btnAddNewRxCancel" style="float:none">Back To Manage Rx</button>&nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    var frmValidator = $("#frmAddNewRx").validate({
+        errorElement: 'span',
+        ignore: ".ignore",
+        rules: {
+            rxDate: {
+                required: true,
+            },
+            rxDoctor: {
+                required: true,
+            },
+            Prescription1: {
+                required: true,
+            },
+        },
+
+        // Messages for form validation
+        messages: {
+            rxDate: {
+                required: 'Please enter Rx Date',
+            },
+            rxDoctor: {
+                required: 'Please enter Rx doctor',
+            },
+            Prescription1: {
+                required: 'Please enter prescription one',
+            },
+        },
+        errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        }
+
+    });
+
+    function AddNewRx() {
+
+        HideFormStatusMessage('frmAddNewRx', 'dvAddRxErrorHolder');
+
+        var isSuccess = false;
+        if (!ajaxValidateAddNewRx()) {
+
+
+            return false;
+        }
+        else {
+
+            $.ajax({
+                url: getMyAbsoluteUrl('~/home/AddNewRx?PatientID=' + currentUserID),
+                type: 'POST',
+                datatype: "html",
+                cache: false,
+                data: $("#frmAddNewRx").serialize(),
+                success: function (data) {
+
+                    if (data != null) {
+
+                        var status = data.status;
+                        var message = data.message;
+
+                        wasItAAsuccess = (status == "OK");
+
+                        if (wasItAAsuccess) {
+
+                            setFormStatusMessage('frmAddNewRx', 'dvAddRxErrorHolder', true, 'New Rx successfully created');
+                        }
+                        else {
+                            setFormStatusMessage('frmAddNewRx', 'dvAddRxErrorHolder', false, message);
+                        }
+                    }
+                },
+                error: function () {
+                    setFormStatusMessage('frmAddNewRx', 'dvAddRxErrorHolder', false, 'An error occured');
+
+                }
+            });
+
+        }
+
+        return false;
+    }
+
+    // Edit user validation rules
+    function ajaxValidateAddNewRx() {
+        return frmValidator.form();
+    }
+
+    function AddNewRxReset() {
+
+        Clear_Form('frmAddNewRx');
+        frmValidator.resetForm();
+
+        HideFormStatusMessage('frmAddNewRx', 'dvAddRxErrorHolder');
+
+        return false;
+    }
+
+    $(document).ready(function () {
+        //$("#txtRxDate").mask("99/99/9999", { placeholder: 'dd/mm/yyyy' });
+
+        $("#txtRxDate").datepicker({
+            maxDate: new Date, minDate: new Date(1950, 1, 1)
+        });
+
+        $('#spnAddNewRx').text('Add New Rx For ' + currentUserFirstName + " " + currentUserLastName);
+    });
+
+</script>

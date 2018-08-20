@@ -537,6 +537,8 @@
     <Content Include="Views\Home\ManagePatientList.cshtml" />
     <Content Include="Views\Home\ManageRx.cshtml" />
     <Content Include="Views\Home\ManageRxList.cshtml" />
+    <Content Include="Views\Home\AddNewRx.cshtml" />
+    <Content Include="Views\Home\EditRx.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

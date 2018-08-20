@@ -20,7 +20,7 @@ namespace WebUI.PatientRxPortal.Models
 
         [Required]
         [Display(Name = "Date of Birth")]
-        public string DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Required]
         [Display(Name = "Phone Number")]

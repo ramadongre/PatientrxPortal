@@ -378,7 +378,7 @@ namespace DataAccessLayer.Patientportal
                         d.CreateDate = r.CreateDate;
                         d.UpdatedOn = r.UpdateDate;
 
-                        cs.Set(true, "", r);
+                        cs.Set(true, "", d);
                     }
                 }
             }

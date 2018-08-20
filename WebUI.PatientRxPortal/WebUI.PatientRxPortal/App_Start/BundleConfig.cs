@@ -28,10 +28,8 @@ namespace WebUI.PatientRxPortal
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/custom").Include(
-                       "~/Scripts/jquery-ui-{version}.js",
-                       "~/Scripts/jquery.mask.js",
-                       "~/Scripts/custom.js"));
-                       
+                       "~/Scripts/jquery-ui-{version}.js", "~/Scripts/custom.js"));
+
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

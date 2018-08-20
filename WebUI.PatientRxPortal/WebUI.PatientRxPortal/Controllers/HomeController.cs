@@ -89,7 +89,7 @@ namespace WebUI.PatientRxPortal.Controllers
                     p.DateOfBirth = Convert.ToDateTime(input.DateOfBirth);
                     p.PhoneNumber = input.PhoneNumber;
                     p.Patient_ID = 0;
-                   
+
                     CommonStatus cs = cls.AddUpdatePatient(p, base.GetLoggedinUserID());
 
                     if (cs != null && cs.OpStatus)
@@ -122,10 +122,10 @@ namespace WebUI.PatientRxPortal.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
         public ActionResult AddNewPatient()
-        {   
+        {
             return PartialView(new PatientViewModel());
-        }      
-      
+        }
+
 
         [HttpGet]
         public ActionResult EditPatient(int PatientID)
@@ -146,17 +146,20 @@ namespace WebUI.PatientRxPortal.Controllers
                     model.PatientID = p.Patient_ID;
                     model.First_Name = p.First_Name;
                     model.Last_Name = p.Last_Name;
-                    model.DateOfBirth = p.DateOfBirth.ToShortDateString();
+                    model.DateOfBirth = p.DateOfBirth;
                     model.PhoneNumber = p.PhoneNumber;
-                }                
+                }
             }
             catch (Exception ex)
-            {               
+            {
             }
             finally
             {
                 cls = null;
             }
+
+            ViewBag.FirstName = model.First_Name;
+            ViewBag.LastName = model.Last_Name;
 
             return PartialView(model);
         }
@@ -179,7 +182,7 @@ namespace WebUI.PatientRxPortal.Controllers
                     p.Last_Name = input.Last_Name;
                     p.DateOfBirth = Convert.ToDateTime(input.DateOfBirth);
                     p.PhoneNumber = input.PhoneNumber;
-                    
+
                     CommonStatus cs = cls.AddUpdatePatient(p, base.GetLoggedinUserID());
 
                     if (cs != null && cs.OpStatus)
@@ -250,6 +253,154 @@ namespace WebUI.PatientRxPortal.Controllers
             }
 
             return PartialView(lstRx);
+        }
+
+        [HttpPost]
+        public ActionResult AddNewrx(int PatientID, RxViewModel input)
+        {
+            string status = string.Empty;
+            string message = string.Empty;
+
+            if (ModelState.IsValid)
+            {
+                DataService.Patientportal.PatientPortalService cls = new DataService.Patientportal.PatientPortalService();
+
+                try
+                {
+                    RxData p = new RxData();
+                    p.RxDate = input.rxDate;
+                    p.RxDoctor = input.rxDoctor;
+                    p.Prescription1 = input.Prescription1;
+                    p.Prescription2 = input.Prescription2;
+                    p.Prescription3 = input.Prescription3;
+                    p.Prescription4 = input.Prescription4;
+                    p.Prescription5 = input.Prescription5;
+                    p.RxData_ID = 0;
+
+                    CommonStatus cs = cls.AddUpdatePatientRxData(PatientID, p, base.GetLoggedinUserID());
+
+                    if (cs != null && cs.OpStatus)
+                    {
+                        status = "OK"; message = "";
+                    }
+                    else
+                    {
+                        status = "ERROR"; message = cs.OpMessage;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    status = "ERROR";
+                    message = ex.Message;
+                }
+                finally
+                {
+                    cls = null;
+                }
+            }
+
+            var jsonData = new
+            {
+                status = status,
+                message = message
+            };
+
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult AddNewRx(int PatientID)
+        {
+            return PartialView(new RxViewModel());
+        }
+
+        [HttpGet]
+        public ActionResult Editrx(int PatientID, int RxDataID)
+        {
+            RxViewModel p = new RxViewModel();
+
+            DataService.Patientportal.PatientPortalService cls = new DataService.Patientportal.PatientPortalService();
+
+            try
+            {
+                CommonStatus cs = cls.GetRxData(RxDataID, base.GetLoggedinUserID());
+
+                if (cs != null && cs.OpStatus)
+                {
+                    RxData input = (RxData)cs.OpPayload;
+
+                    p.RxDataID = input.RxData_ID;
+                    p.rxDate = input.RxDate;
+                    p.rxDoctor = input.RxDoctor;
+                    p.Prescription1 = input.Prescription1;
+                    p.Prescription2 = input.Prescription2;
+                    p.Prescription3 = input.Prescription3;
+                    p.Prescription4 = input.Prescription4;
+                    p.Prescription5 = input.Prescription5;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                cls = null;
+            }
+
+            return PartialView(p);
+        }
+
+        [HttpPost]
+        public ActionResult EditRx(int PatientID, RxViewModel input)
+        {
+            string status = string.Empty;
+            string message = string.Empty;
+
+            if (ModelState.IsValid)
+            {
+                DataService.Patientportal.PatientPortalService cls = new DataService.Patientportal.PatientPortalService();
+
+                try
+                {
+                    RxData p = new RxData();
+                    p.RxData_ID = input.RxDataID;
+                    p.RxDate = input.rxDate;
+                    p.RxDoctor = input.rxDoctor;
+                    p.Prescription1 = input.Prescription1;
+                    p.Prescription2 = input.Prescription2;
+                    p.Prescription3 = input.Prescription3;
+                    p.Prescription4 = input.Prescription4;
+                    p.Prescription5 = input.Prescription5;
+
+                    CommonStatus cs = cls.AddUpdatePatientRxData(PatientID, p, base.GetLoggedinUserID());
+
+                    if (cs != null && cs.OpStatus)
+                    {
+                        status = "OK"; message = "";
+                    }
+                    else
+                    {
+                        status = "ERROR"; message = cs.OpMessage;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    status = "ERROR";
+                    message = ex.Message;
+                }
+                finally
+                {
+                    cls = null;
+                }
+            }
+
+            var jsonData = new
+            {
+                status = status,
+                message = message
+            };
+
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
     }
 }

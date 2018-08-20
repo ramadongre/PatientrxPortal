@@ -15,11 +15,11 @@
                 <h3 class="panel-title"><i class="fa fa-users">&nbsp;</i>Manage Rx for @ViewBag.FirstName @ViewBag.LastName</h3>
             </div>
             <div class="panel-body">
-                <div id="dvErrorHolder"></div>
+                <div id="dvRxErrorHolder"></div>
                 <div style="clear:both"></div>
                 <div class="row" style="margin-bottom:20px;margin-top:20px;">
                     <div class="col-xs-12">
-                        <button type="button" onclick="javascript: return AddNewRx();" class="btn btn-primary btn-md" id="btnAddNewRx" style="float:right;margin-right:10px;">Add New Rx</button>
+                        <button type="button" onclick="javascript: return AddNewRx();" class="btn btn-primary btn-md" id="btnAddNewRxMaster" style="float:right;margin-right:10px;">Add New Rx</button>
                         <button type="button" onclick="javascript: return ToManagePatients();" class="btn btn-primary btn-md" id="btnToManagePatients" style="float:right;margin-right:10px;">Back To Manage Patients</button>
                     </div>
                 </div>
@@ -37,15 +37,13 @@
 
 <script type="text/javascript">
 
-    var currentRxID = 0;
-
     function AddNewRx() {
         
         $("#dvMainAreaRx").slideUp("slow", function () {
             // Animation complete.
             ShowAjaxLoadingContent('dvActionAreaRx');
             $('#dvActionAreaRx').slideDown("slow", function () {
-                $('#dvActionAreaRx').load(getMyAbsoluteUrl('~/Home/AddNewRx'));
+                $('#dvActionAreaRx').load(getMyAbsoluteUrl('~/Home/AddNewRx?patientID=' + currentUserID));
 
             });
         });
@@ -59,7 +57,7 @@
             ShowAjaxLoadingContent('dvgridAreaRx');
             $('#dvMainAreaRx').slideDown("slow");
             $('#dvActionAreaRx').html('');
-            $('#dvgridAreaRx').load(getMyAbsoluteUrl('~/Home/ManageRxList'));
+            $('#dvgridAreaRx').load(getMyAbsoluteUrl('~/Home/ManageRxList?patientID=' + currentUserID + '&firstname=' + currentUserFirstName + "&lastname=" + currentUserLastName));
         });
 
         //return false;
@@ -71,27 +69,23 @@
             ShowAjaxLoadingContent('dvgridAreaRx');
             $('#dvMainAreaRx').slideDown("slow");
             $('#dvActionAreaRx').html('');
-            $('#dvgridAreaRx').load(getMyAbsoluteUrl('~/Home/ManageRxList'));
+            $('#dvgridAreaRx').load(getMyAbsoluteUrl('~/Home/ManageRxList?patientID=' + currentUserID + '&firstname=' + currentUserFirstName + "&lastname=" + currentUserLastName));
         });
 
         //return false;
     }
 
-    function ManageRx(patientid) {
-        return false;
-    }
+    function EditRx(rxid) {
 
+        currentRxID = rxid;
 
-    function EditRx(userid) {
-        if (userid != null) {
-
-            currentUserID = userid;
+        if (currentRxID != null) {
 
             $("#dvMainAreaRx").slideUp("slow", function () {
                 // Animation complete.
                 ShowAjaxLoadingContent('dvActionAreaRx');
                 $('#dvActionAreaRx').slideDown("slow", function () {
-                    $('#dvActionAreaRx').load(getMyAbsoluteUrl('~/Home/EditRx?RxID=' + userid));
+                    $('#dvActionAreaRx').load(getMyAbsoluteUrl('~/Home/EditRx?patientID=' + currentUserID + '&RxDataID=' + currentRxID));
                 });
             });
         }
