@@ -97,13 +97,17 @@
 
     });
 
+    // Edit user validation rules
+    function ajaxValidateAddNewPatient() {
+        return frmAddValidator.form();
+    }
+
     function AddNewPatient() {
 
         HideFormStatusMessage('frmAddNewPatient', 'dvAddErrorHolder');
 
         var isSuccess = false;
         if (!ajaxValidateAddNewPatient()) {
-
 
             return false;
         }
@@ -142,11 +146,6 @@
         }
 
         return false;
-    }
-
-    // Edit user validation rules
-    function ajaxValidateAddNewPatient() {
-        return frmAddValidator.form();
     }
 
     function AddNewPatientReset() {

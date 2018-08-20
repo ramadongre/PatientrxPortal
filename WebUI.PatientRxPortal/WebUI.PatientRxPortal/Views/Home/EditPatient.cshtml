@@ -99,6 +99,11 @@
 
     });
 
+    // Edit user validation rules
+    function ajaxValidateEditPatient() {
+        return frmEditValidator.form();
+    }
+
     function UpdatePatient() {
 
         HideFormStatusMessage('frmEditPatient', 'dvEditErrorHolder');
@@ -143,11 +148,6 @@
         }
 
         return false;
-    }
-
-    // Edit user validation rules
-    function ajaxValidateEditPatient() {
-        return frmEditValidator.form();
     }
 
     function EditPatientReset() {
