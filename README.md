@@ -52,7 +52,7 @@ Demo
 -----------
 The application has been hosted on Azure VM & SQL:
 
-http://52.170.151.71/PatientRxPortal/
+http://XX.XX.XX.XX/PatientRxPortal/
 
 Use admin/password to login.
 
